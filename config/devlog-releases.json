@@ -18,13 +18,14 @@
       "Bradshaw Versioning from this release, and a paginated devlog behind the version number in the footer.",
       "The project is ready to be published as open source."
     ],
-    "commit": null,
+    "commit": "b6ec40423f73bb2fab620348149784ce03c14fd1",
     "author": {
       "name": "Ari Bradshaw",
       "githubLogin": "aribradshaw"
     },
     "compatibility": "compatible",
-    "action": null
+    "action": null,
+    "releasedAt": "2026-11-11T17:15:41.000Z"
   },
   {
     "version": "1.3.5",
@@ -39,7 +40,7 @@
       "Bundled Press Start 2P, Source Sans 3, Instrument Serif and Instrument Sans so headings match the web.",
       "The app starts on Night in dark mode and on System Boring otherwise."
     ],
-    "commit": null,
+    "commit": "25d19fed1ebf2746fdb05fe04b7b932643ec436c",
     "author": {
       "name": "Ari Bradshaw",
       "githubLogin": "aribradshaw"
@@ -59,7 +60,7 @@
       "Removed the fifth, original-look theme from the picker.",
       "Anyone on the removed theme moves to the default automatically."
     ],
-    "commit": null,
+    "commit": "312efe54890132bc4b771f2f2d2e40381604ef14",
     "author": {
       "name": "Ari Bradshaw",
       "githubLogin": "aribradshaw"
@@ -80,7 +81,7 @@
       "Each theme sets its own colors, heading font and corner shape.",
       "Status bar icons turn dark on light themes so they stay readable."
     ],
-    "commit": null,
+    "commit": "9f3a037c050c575ebe40d32d95672003c3e08a1b",
     "author": {
       "name": "Ari Bradshaw",
       "githubLogin": "aribradshaw"
@@ -102,7 +103,7 @@
       "Options to show live values or a static notification, and to update only while the screen is on.",
       "Sampling keeps running at full rate, so capacity measurements are unaffected."
     ],
-    "commit": null,
+    "commit": "3d3b11c94b4ee056bd8f9e76b6b70e4ba177b25d",
     "author": {
       "name": "Ari Bradshaw",
       "githubLogin": "aribradshaw"
@@ -124,7 +125,7 @@
       "A background activity list shows which apps keep services running or use the most background data.",
       "A Stop / restrict button opens that app's system page."
     ],
-    "commit": null,
+    "commit": "e20ada80df6ad410ffb6ae8cbe33255af057834a",
     "author": {
       "name": "Ari Bradshaw",
       "githubLogin": "aribradshaw"
@@ -146,7 +147,7 @@
       "The health card shows Measuring… with live progress until a charge of 15% or more completes.",
       "Charge cycles are hidden when the phone reports 0."
     ],
-    "commit": null,
+    "commit": "20ae63c1f235260cb36943e4b6f70ae21021c01c",
     "author": {
       "name": "Ari Bradshaw",
       "githubLogin": "aribradshaw"
@@ -169,7 +170,7 @@
       "Usage stats: average drain, how long a full charge lasts, charge count and temperatures.",
       "Logs a reading every 15 minutes, on plug and unplug, and after a reboot. Data stays on the phone."
     ],
-    "commit": null,
+    "commit": "b5482659bd8ce95b92da4bfbc7c5ba1cf7e97879",
     "author": {
       "name": "Ari Bradshaw",
       "githubLogin": "aribradshaw"
