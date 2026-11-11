@@ -1,5 +1,36 @@
 [
   {
+    "version": "1.3.7",
+    "date": "2026-11-11",
+    "releasedAt": "2026-11-11T19:36:20.000Z",
+    "title": "Trim the devlog header and release dates",
+    "notes": [
+      "The devlog page is cleaner: just the title, dates and notes."
+    ],
+    "commit": "d864c9b373d1630ce8969483286416820e2c24f1",
+    "sourceSubject": "Trim the devlog header and release dates",
+    "author": {
+      "name": "Ari Bradshaw",
+      "githubLogin": "aribradshaw"
+    },
+    "includedCommits": [
+      {
+        "sha": "08ee8e1c66e696a83081bff0f283a8bb105b7758",
+        "subject": "chore(release): publish DevLog 1.3.6",
+        "committedAt": "2026-11-11T17:16:17Z",
+        "authorName": "github-actions[bot]"
+      },
+      {
+        "sha": "d864c9b373d1630ce8969483286416820e2c24f1",
+        "subject": "Trim the devlog header and release dates",
+        "committedAt": "2026-11-11T12:36:15-07:00",
+        "authorName": "Ari Bradshaw"
+      }
+    ],
+    "compatibility": "compatible",
+    "action": null
+  },
+  {
     "version": "1.3.6",
     "legacyVersion": "1.7",
     "date": "2026-11-11",
