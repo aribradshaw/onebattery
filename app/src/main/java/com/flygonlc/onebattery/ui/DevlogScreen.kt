@@ -70,7 +70,6 @@ internal data class DevlogRelease(
     val notes: List<String>,
     val compatibility: String,
     val action: String?,
-    val legacyVersion: String?,
 )
 
 /** Releases per pager page. */
@@ -91,7 +90,6 @@ internal fun loadDevlog(context: Context): List<DevlogRelease> = runCatching {
             notes = (0 until notesArr.length()).map { notesArr.optString(it) }.filter { it.isNotBlank() },
             compatibility = o.optString("compatibility").ifBlank { "compatible" },
             action = o.optString("action").takeIf { o.has("action") && !o.isNull("action") && it.isNotBlank() },
-            legacyVersion = o.optString("legacyVersion").takeIf { o.has("legacyVersion") && it.isNotBlank() },
         )
     }.sortedWith(compareByDescending<DevlogRelease> { it.versionParts[0] }
         .thenByDescending { it.versionParts[1] }.thenByDescending { it.versionParts[2] })
@@ -145,13 +143,7 @@ fun DevlogScreen(onBack: () -> Unit, handleBack: Boolean = true) {
                 Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back", tint = Palette.text)
             }
             Spacer(Modifier.width(4.dp))
-            Column(Modifier.weight(1f)) {
-                Text("Devlog", color = Palette.text, fontSize = Palette.headingSize(26.sp), fontWeight = FontWeight.Bold, fontFamily = Palette.heading)
-                Text(
-                    "Bradshaw Versioning · YEAR.MONTH.UPDATE",
-                    color = Palette.muted, fontSize = 12.sp,
-                )
-            }
+            Text("Devlog", color = Palette.text, fontSize = Palette.headingSize(26.sp), fontWeight = FontWeight.Bold, fontFamily = Palette.heading)
         }
 
         if (releases == null) {
@@ -213,7 +205,7 @@ private fun ReleaseCard(r: DevlogRelease) {
             )
             Spacer(Modifier.width(8.dp))
             Text(
-                prettyDate(r.date) + (r.legacyVersion?.let { " · was v$it" } ?: ""),
+                prettyDate(r.date),
                 color = Palette.muted, fontSize = 12.sp, modifier = Modifier.weight(1f),
             )
             if (installed) {

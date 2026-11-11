@@ -8,7 +8,9 @@ Legend: 🔴 blocks publishing · 🟠 likely rejection or major review risk · 
 
 ## 1. Blockers in the code and build
 
-### 🔴 1.1 Target API level must be 36 (Android 16)
+### ✅ 1.1 Target API level must be 36 (Android 16)
+**Done:** `compileSdk` and `targetSdk` are 36.
+
 Since **31 Aug 2026**, new apps and app updates must target **API 36**. The app currently has `compileSdk = 35` and `targetSdk = 35`, so Play Console will refuse the upload.
 
 Upgrade (no AGP or Gradle bump strictly required):
@@ -29,7 +31,9 @@ Upgrade (no AGP or Gradle bump strictly required):
 - ⚠️ **Sideloading changes:** with `keystore.properties` present, `assembleRelease` is now signed with the upload key and **won't install over the existing debug-signed sideloaded app** (signature mismatch). For phone test builds, use `./gradlew assembleRelease -PdebugSigning`, or uninstall once. Play-installed builds are signed with Google's app-signing key, which differs from both, so expect one uninstall when switching from the sideloaded build to the Play build.
 - The first upload's `versionCode` must be higher than any code you will ever need again. Codes only go up.
 
-### 🟠 1.3 Remove `QUERY_ALL_PACKAGES` (it will not be approved)
+### ✅ 1.3 Remove `QUERY_ALL_PACKAGES` (it will not be approved)
+**Done:** replaced with the `<queries>` block below.
+
 Play allows it only when the app's **core purpose** requires seeing every installed app: device search, antivirus, file managers, browsers and similar. It is not allowed when "the task can be done with a less broad app-visibility method." Labeling a drain list doesn't qualify.
 
 What the app uses it for: `DrainTracker.label()` → `pm.getApplicationInfo(pkg)`, and `pm.getPackagesForUid()` in `backgroundUse()`. UsageStats and NetworkStats return package names and UIDs **without** any package-visibility permission. Only turning them into app names needs visibility.
@@ -46,7 +50,9 @@ Narrowest alternative (manifest only, no Kotlin change):
 ```
 This makes every app with a launcher icon visible, which covers every app a user can open and that can therefore be in the foreground. `label()` already falls back to the package name for anything else (system components). `getPackagesForUid()` returns `null` for invisible UIDs and that row is skipped, which only affects system or headless packages in the "Busy in the background" list. If the declaration is ever needed anyway, don't submit one. Remove the permission.
 
-### 🟠 1.4 Prominent disclosure before sending the user to Usage access
+### ✅ 1.4 Prominent disclosure before sending the user to Usage access
+**Done:** `DrainCard.kt` shows this dialog before opening Settings.
+
 App-usage data counts as *personal and sensitive user data* under Play's User Data policy. The current inline text in `DrainCard.kt` ("Allow Usage access so OneBattery can see which app is open while it measures. Nothing leaves your phone.") is close. To be safe, show a **dialog** before `ACTION_USAGE_ACCESS_SETTINGS`, with the disclosure plus explicit **Continue / Not now** buttons:
 
 > **Allow Usage access?**
@@ -112,7 +118,7 @@ This produces the listing label **"No data collected · No data shared"**.
 
 ### 🟡 3.3 Privacy policy
 Required for every app. Host [`PRIVACY.md`](../PRIVACY.md) at a public, non-PDF URL, either:
-- `https://github.com/<org>/<repo>/blob/main/PRIVACY.md` (works as soon as the repo is public), or
+- `https://github.com/aribradshaw/onebattery/blob/main/PRIVACY.md` (live now that the repo is public), or
 - `https://flygonlc.com/onebattery/privacy` (preferred, because it's stable if the repo moves).
 
 ### 🟡 3.4 Other App content forms

@@ -15,7 +15,7 @@
       "Pinch to zoom the battery level and temperature charts, and a curved line option for the capacity trend.",
       "Smoother everywhere: charts redraw without rebuilding the screen, data loads off the main thread, and the app ships a baseline profile so it is compiled ahead of time.",
       "Uses the full 120 Hz on high-refresh screens while something is moving, and drops back when idle to save battery.",
-      "Bradshaw Versioning from this release, and a paginated devlog behind the version number in the footer.",
+      "Tap the version number in the footer for a paginated devlog.",
       "The project is ready to be published as open source."
     ],
     "commit": "b6ec40423f73bb2fab620348149784ce03c14fd1",
