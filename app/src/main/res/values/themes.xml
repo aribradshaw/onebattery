@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.OneBattery" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#F7F7F4</item>
+        <item name="android:statusBarColor">#F7F7F4</item>
+        <item name="android:navigationBarColor">#F7F7F4</item>
+    </style>
+</resources>

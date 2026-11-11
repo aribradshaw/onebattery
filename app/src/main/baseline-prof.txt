@@ -1,0 +1,42 @@
+# OneBattery baseline profile (hand-written; no macrobenchmark module).
+#
+# Without a profile a sideloaded APK runs interpreted/JIT until the device's idle dexopt gets to it
+# (the 1.3.6 install on the S24 Ultra was still `status=verify`), and Compose is notably janky in
+# that state: first composition of each card, first chart draw, first pinch, first slide.
+# ProfileInstaller (androidx.profileinstaller) writes this profile on first launch, so ART compiles
+# these paths ahead of time. AGP merges it with the profiles the Compose libraries ship, and R8
+# rewrites it to the obfuscated names in the release build.
+#
+# H = hot, S = startup, P = post-startup. Wildcards: ** matches anything, including '/'.
+
+# App code: all of it. It's small, and every screen is on a hot path (startup -> dashboard ->
+# history/charts/pinch -> settings/dial -> devlog), plus the monitor service and readers.
+HSPLcom/flygonlc/onebattery/**->**(**)**
+Lcom/flygonlc/onebattery/**;
+
+# Compose: runtime, UI (layout, drawing, text measuring, pointer input, graphics layers),
+# foundation (lazy lists, pager, gestures, Canvas), animation (AnimatedContent, springs, transitions)
+# and the Material3 components used (Switch, RadioButton, AlertDialog, TooltipBox, buttons, text).
+HSPLandroidx/compose/runtime/**->**(**)**
+Landroidx/compose/runtime/**;
+HSPLandroidx/compose/ui/**->**(**)**
+Landroidx/compose/ui/**;
+HSPLandroidx/compose/foundation/**->**(**)**
+Landroidx/compose/foundation/**;
+HSPLandroidx/compose/animation/**->**(**)**
+Landroidx/compose/animation/**;
+HSPLandroidx/compose/material3/**->**(**)**
+Landroidx/compose/material3/**;
+
+# Activity / lifecycle glue used at startup and by the resumed-only loops.
+HSPLandroidx/activity/**->**(**)**
+Landroidx/activity/**;
+HSPLandroidx/lifecycle/**->**(**)**
+Landroidx/lifecycle/**;
+
+# Coroutines (frame clock, LaunchedEffect loops, Dispatchers.IO loads) and the Kotlin stdlib bits
+# they pull in.
+HSPLkotlinx/coroutines/**->**(**)**
+Lkotlinx/coroutines/**;
+HSPLkotlin/collections/**->**(**)**
+HSPLkotlin/jvm/internal/**->**(**)**

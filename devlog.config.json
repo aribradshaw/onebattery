@@ -1,0 +1,22 @@
+{
+  "enabled": true,
+  "failClosed": true,
+  "productionBranches": ["main"],
+  "ignoreCommitPrefixes": ["chore(release):", "DevLog:"],
+  "registryPath": "config/devlog-releases.json",
+  "versionPropertiesPath": "version.properties",
+  "scheme": {
+    "originYear": 2026,
+    "originMonth": 8,
+    "yearMode": "one",
+    "firstYearMonths": "project-relative",
+    "laterYearMonths": "calendar",
+    "timeZone": "America/Phoenix"
+  },
+  "timeZone": "America/Phoenix",
+  "baselineVersion": "1.2.1",
+  "author": {
+    "name": "Ari Bradshaw",
+    "githubLogin": "aribradshaw"
+  }
+}

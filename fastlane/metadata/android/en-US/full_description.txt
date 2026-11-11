@@ -1,0 +1,28 @@
+How much charge can your battery actually hold today?
+
+On many phones, including Samsung Galaxy devices, the battery numbers Android reports are not measured. The "remaining charge" is calculated from the percentage and the battery's original design capacity, so a battery that has worn out for years can still look brand new. OneBattery measures it instead.
+
+<b>How it works</b>
+OneBattery reads the battery current from your phone's fuel gauge every 10–30 seconds and adds up the charge that actually flows in or out, a technique called coulomb counting. When your battery moves at least 15 percentage points, OneBattery divides the measured charge by the change. That gives your battery's real full-charge capacity in mAh, and its health as a percentage of the original design. Each charge or discharge adds another measurement, and the result settles into a steady estimate (about ±5%).
+
+<b>Features</b>
+• Measured battery health: real capacity in mAh and % of design, with a trend over time
+• Live status: level, charging source, power in watts, voltage, temperature, cycle count (Android 14+) and time to full
+• History: level and temperature charts, charge sessions and average drain rate
+• What's draining your battery: drain attributed to the apps you use, an idle bucket for screen-off time, and the apps Android reports running in the background (optional Usage access)
+• Ongoing notification with an optional live readout, an adjustable update interval, and a quiet mode while the screen is off
+• Four distinctive themes, from pixel-art green to a quiet dark mode, with a launcher icon that matches
+
+<b>Private by design</b>
+OneBattery has no internet permission. It cannot upload anything. Readings stay in a private database on your phone. There are no accounts, ads, analytics or trackers.
+
+<b>Why the app needs a persistent notification</b>
+Measuring capacity means sampling the battery current every few seconds for hours. Android requires an ongoing notification for that kind of continuous work. You can make it static or quiet in settings. While the phone is plugged in, OneBattery keeps the processor awake so charge measurements have no gaps (the charger covers the cost). On battery, it lets the phone sleep normally.
+
+<b>Usage access (optional)</b>
+To show which apps drain your battery, OneBattery asks for Usage access. It uses it only to see which app is on screen while it measures, plus Android's own per-app background totals. Skip it, and every other feature still works.
+
+<b>Open source</b>
+OneBattery is open source under the MIT license. Read the code, report a device quirk or contribute on GitHub.
+
+Tip: your first measurement appears after the battery has charged or drained by 15 percentage points while OneBattery is running. A long charge from low to full gives the quickest and most accurate reading.

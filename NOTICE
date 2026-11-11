@@ -1,0 +1,34 @@
+OneBattery by Flygon LC
+Copyright 2026 Flygon LC
+
+This product is licensed under the MIT License (see LICENSE).
+
+This product bundles the following fonts, each licensed under the
+SIL Open Font License, Version 1.1 (see licenses/OFL-1.1.txt):
+
+  Press Start 2P   Copyright 2012 The Press Start 2P Project Authors (cody@zone38.net),
+                   with Reserved Font Name "Press Start 2P".
+                   app/src/main/res/font/press_start_2p.ttf
+
+  Source Sans 3    Copyright 2010-2023 Adobe (http://www.adobe.com/),
+                   with Reserved Font Name "Source".
+                   app/src/main/res/font/source_sans_regular.ttf
+                   app/src/main/res/font/source_sans_semibold.ttf
+                   (SourceSans3-Regular.ttf and SourceSans3-Semibold.ttf,
+                   unmodified, from Adobe's official 3.052R release:
+                   https://github.com/adobe-fonts/source-sans/releases/tag/3.052R)
+
+  Instrument Sans  Copyright 2022 The Instrument Sans Project Authors
+                   (https://github.com/Instrument/instrument-sans)
+                   app/src/main/res/font/instrument_sans.ttf
+
+  Instrument Serif Copyright 2022 The Instrument Serif Project Authors
+                   (https://github.com/Instrument/instrument-serif)
+                   app/src/main/res/font/instrument_serif.ttf
+
+The font files are unmodified apart from their file names, which Android
+resource naming requires. They remain under the OFL, not the MIT License.
+
+Compiled builds also include AndroidX / Jetpack Compose and the Kotlin standard
+library, licensed under the Apache License, Version 2.0. See
+THIRD_PARTY_NOTICES.md for the full list.

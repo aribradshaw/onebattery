@@ -1,0 +1,211 @@
+# Bradshaw Versioning + DevLog on every push to main (see docs/VERSIONING.md).
+#
+# 1. Sync with the tip of main, so the version is computed against the newest registry (a queued run must
+#    not reuse a number an earlier run already published).
+# 2. scripts/devlog-release.mjs prepare: assign the next YEAR.MONTH.UPDATE to the pushed commit (idempotent
+#    per commit SHA) and write config/devlog-releases.json + version.properties. Every later step runs only
+#    when prepare actually produced a release (status created / reused / linked); "skipped" (DevLog: or
+#    chore(release): commits) and "disabled" stop the job here, so nothing is built or uploaded.
+# 3. check: fail closed if registry, version.properties and the pushed commit disagree.
+# 4. Commit the metadata with a bot-only "chore(release):" commit (skipped by the recorder, so no loop),
+#    tag v<version> on the source commit, and push branch + tag in ONE atomic push: either both land or
+#    neither does. If main moved, re-sync and recompute (bounded retries). A tag that already exists on a
+#    different commit fails the run.
+# 5. Build the APK from the source commit plus the final metadata (versionName/versionCode derive from
+#    version.properties; the devlog is bundled into assets/devlog.json at build time).
+# 6. Publish a GitHub Release with the APK and the devlog notes, after re-checking that the remote tag
+#    points at the source commit (so an asset is never replaced under another commit's tag).
+#
+# Secrets (by name only; configure in repo settings):
+#   ONEBATTERY_UPLOAD_KEYSTORE_B64  base64 of the upload keystore (.jks)
+#   ONEBATTERY_KEYSTORE_PASSWORD, ONEBATTERY_KEY_ALIAS, ONEBATTERY_KEY_PASSWORD
+# Without them the APK is signed with the runner's throwaway debug key (fine for testing, but it
+# will not install over a phone build signed with your key).
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+# Spec section 3: serialize version assignment; never cancel a run that may already have a number.
+concurrency:
+  group: bradshaw-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.actor != 'github-actions[bot]' && !startsWith(github.event.head_commit.message, 'chore(release):')
+    runs-on: ubuntu-latest
+    env:
+      DEVLOG_PRODUCTION: 'true'
+      DEVLOG_BRANCH: ${{ github.ref_name }}
+      DEVLOG_COMMIT_SHA: ${{ github.sha }}
+      # Admission time = when the push reached GitHub (epoch seconds), not the author date.
+      DEVLOG_RELEASED_AT: ${{ github.event.repository.pushed_at }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Check version rules (1.3.x = Nov 2026, 2.1.1 = Jan 2027)
+        run: node scripts/devlog-release.mjs selftest
+
+      - name: Sync with the tip of main
+        run: |
+          git fetch --force --tags origin "+refs/heads/$DEVLOG_BRANCH:refs/remotes/origin/$DEVLOG_BRANCH"
+          if ! git merge-base --is-ancestor "$DEVLOG_COMMIT_SHA" "origin/$DEVLOG_BRANCH"; then
+            echo "::error::$DEVLOG_COMMIT_SHA is no longer on $DEVLOG_BRANCH (history rewritten?); not releasing it."
+            exit 1
+          fi
+          git checkout -B "$DEVLOG_BRANCH" "origin/$DEVLOG_BRANCH"
+
+      - name: Assign Bradshaw version and record DevLog entry
+        id: devlog
+        run: node scripts/devlog-release.mjs prepare --production
+
+      # Every step below is gated on this: only a real release continues.
+      - name: Gate on DevLog alignment
+        if: contains(fromJSON('["created","reused","linked"]'), steps.devlog.outputs.status)
+        run: node scripts/devlog-release.mjs check --production
+
+      - name: Commit DevLog metadata, tag, and push atomically
+        id: tag
+        if: contains(fromJSON('["created","reused","linked"]'), steps.devlog.outputs.status)
+        env:
+          VERSION: ${{ steps.devlog.outputs.version }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Re-run the recorder against the current tip (without touching this step's outputs file).
+          reprepare() {
+            local out
+            out=$(GITHUB_OUTPUT= node scripts/devlog-release.mjs prepare --production)
+            local status
+            status=$(OUT="$out" node -e 'process.stdout.write(String(JSON.parse(process.env.OUT).status))')
+            VERSION=$(OUT="$out" node -e 'process.stdout.write(String(JSON.parse(process.env.OUT).version ?? ""))')
+            case "$status" in
+              created|reused|linked) ;;
+              *) echo "::error::prepare returned '$status' after re-sync"; exit 1 ;;
+            esac
+            GITHUB_OUTPUT= node scripts/devlog-release.mjs check --production >/dev/null
+          }
+
+          # The tag must name the source commit. An existing tag on another commit is fatal (never reuse it).
+          ensure_tag() {
+            local ref="refs/tags/v$VERSION"
+            if git rev-parse -q --verify "$ref" >/dev/null; then
+              local at
+              at=$(git rev-parse "$ref^{commit}")
+              if [ "$at" != "$DEVLOG_COMMIT_SHA" ]; then
+                echo "::error::Tag v$VERSION already exists on $at, not $DEVLOG_COMMIT_SHA. Reconcile the registry; refusing to publish."
+                exit 1
+              fi
+            else
+              git tag -a "v$VERSION" "$DEVLOG_COMMIT_SHA" -m "OneBattery $VERSION"
+            fi
+          }
+
+          attempt=1
+          while :; do
+            git add config/devlog-releases.json version.properties
+            git diff --cached --quiet || git commit -m "chore(release): publish DevLog $VERSION"
+            ensure_tag
+            # Atomic: the branch update and the tag land together or not at all.
+            if git push --atomic origin "HEAD:refs/heads/$DEVLOG_BRANCH" "refs/tags/v$VERSION"; then
+              break
+            fi
+            if [ "$attempt" -ge 5 ]; then
+              echo "::error::Push rejected $attempt times; giving up without publishing."
+              exit 1
+            fi
+            attempt=$((attempt + 1))
+            echo "Push rejected (main moved or tag raced); re-syncing and recomputing (attempt $attempt)."
+            sleep $((attempt * 3))
+            git fetch --force --tags origin "+refs/heads/$DEVLOG_BRANCH:refs/remotes/origin/$DEVLOG_BRANCH"
+            if ! git merge-base --is-ancestor "$DEVLOG_COMMIT_SHA" "origin/$DEVLOG_BRANCH"; then
+              echo "::error::$DEVLOG_COMMIT_SHA is no longer on $DEVLOG_BRANCH; not releasing it."
+              exit 1
+            fi
+            git reset --hard "origin/$DEVLOG_BRANCH"
+            reprepare
+          done
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "meta=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Check out the released source with its final metadata
+        if: contains(fromJSON('["created","reused","linked"]'), steps.devlog.outputs.status)
+        env:
+          VERSION: ${{ steps.tag.outputs.version }}
+          META: ${{ steps.tag.outputs.meta }}
+        run: |
+          set -euo pipefail
+          # Build exactly the tagged commit's code (main may hold newer commits), with the registry that
+          # contains this release and version.properties set to this release's version.
+          git checkout --detach "$DEVLOG_COMMIT_SHA"
+          git checkout "$META" -- config/devlog-releases.json
+          sed -i -E "s/^version[[:space:]]*=.*/version=$VERSION/" version.properties
+          grep -qx "version=$VERSION" version.properties
+
+      - name: Restore upload key
+        if: contains(fromJSON('["created","reused","linked"]'), steps.devlog.outputs.status)
+        env:
+          KEYSTORE_B64: ${{ secrets.ONEBATTERY_UPLOAD_KEYSTORE_B64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ONEBATTERY_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ONEBATTERY_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ONEBATTERY_KEY_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_B64" ]; then echo "No upload key secret; using debug signing."; exit 0; fi
+          echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          {
+            echo "storeFile=$RUNNER_TEMP/upload.jks"
+            echo "storePassword=$KEYSTORE_PASSWORD"
+            echo "keyAlias=$KEY_ALIAS"
+            echo "keyPassword=$KEY_PASSWORD"
+          } > keystore.properties
+
+      - name: Build release APK
+        if: contains(fromJSON('["created","reused","linked"]'), steps.devlog.outputs.status)
+        run: |
+          chmod +x gradlew
+          ./gradlew :app:assembleRelease --no-daemon
+
+      - name: Publish GitHub Release
+        if: contains(fromJSON('["created","reused","linked"]'), steps.devlog.outputs.status)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.tag.outputs.version }}
+        run: |
+          set -euo pipefail
+          # The remote tag (peeled) must be the source commit; otherwise never create or replace anything.
+          refs=$(git ls-remote --tags origin)
+          tag_commit=$(printf '%s\n' "$refs" | awk -v r="refs/tags/v$VERSION^{}" '$2 == r { print $1 }')
+          [ -n "$tag_commit" ] || tag_commit=$(printf '%s\n' "$refs" | awk -v r="refs/tags/v$VERSION" '$2 == r { print $1 }')
+          if [ "$tag_commit" != "$DEVLOG_COMMIT_SHA" ]; then
+            echo "::error::Remote tag v$VERSION is on '${tag_commit:-missing}', not $DEVLOG_COMMIT_SHA; not publishing."
+            exit 1
+          fi
+          cp app/build/outputs/apk/release/app-release.apk "OneBattery-$VERSION.apk"
+          node scripts/devlog-release.mjs notes "$VERSION" > release-notes.md
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            # Same tag, same commit (checked above): a re-run may replace its own asset.
+            gh release upload "v$VERSION" "OneBattery-$VERSION.apk" --clobber
+          else
+            gh release create "v$VERSION" "OneBattery-$VERSION.apk" --verify-tag --title "OneBattery $VERSION" --notes-file release-notes.md
+          fi

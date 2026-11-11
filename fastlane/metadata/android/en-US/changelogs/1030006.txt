@@ -1,0 +1,6 @@
+First release on Google Play.
+• Measured battery health: real capacity by coulomb counting
+• Live status, temperature and history charts
+• What's draining your battery (optional Usage access)
+• Four themes, with a launcher icon that matches
+• No internet permission: all data stays on your phone

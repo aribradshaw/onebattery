@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Auto Backup rules for API 29-30 (android:fullBackupContent). Android 12+ uses
+     data_extraction_rules.xml instead; keep both in sync. Settings (SharedPreferences) are backed
+     up; the database (battery and per-app usage history) never leaves the phone. -->
+<full-backup-content>
+    <exclude domain="database" path="." />
+</full-backup-content>

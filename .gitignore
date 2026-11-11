@@ -1,0 +1,84 @@
+# ---- Gradle / build output ----
+.gradle/
+.kotlin/
+build/
+**/build/
+captures/
+.externalNativeBuild/
+.cxx/
+*.hprof
+
+# ---- Local machine config (contains SDK path / username) ----
+local.properties
+
+# ---- Signing material: NEVER commit ----
+keystore.properties
+signing.properties
+*.jks
+*.keystore
+*.p12
+*.pk8
+*.pem
+*.der
+google-services.json
+play-service-account*.json
+*service-account*.json
+
+# ---- Built artifacts (attach to GitHub Releases instead) ----
+dist/
+*.apk
+*.aab
+*.apks
+*.ap_
+*.dex
+output-metadata.json
+app/release/
+app/debug/
+mapping.txt
+
+# ---- IDEs / editors ----
+.idea/
+*.iml
+.vscode/
+.fleet/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- AI agent / tool state ----
+.claude/
+.codex/
+.cursor/
+.t3/
+CLAUDE.local.md
+AGENTS.local.md
+
+# ---- Scratch / logs ----
+*.log
+*.tmp
+tmp/
+scratch/
+screenshots/
+*.screenshot.png
+/*.png
+/*.jpg
+
+# ---- Fastlane local state ----
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output/
+fastlane/README.md
+
+# Local environment and credential sidecars
+.env
+.env.*
+!.env.example
+!.env.template
+*.credentials.txt
+
+# Python-generated artifacts
+__pycache__/
+*.py[cod]
