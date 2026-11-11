@@ -71,11 +71,12 @@ App-usage data counts as *personal and sensitive user data* under Play's User Da
 
 ## 2. Account-level requirements
 
-### 🔴 2.1 Developer account type, verification and testing gate
-- **Identity verification** is mandatory in Play Console. Android developer verification also began enforcement on **30 Sep 2026** in Brazil, Indonesia, Singapore and Thailand, and expands globally in 2027. Play Console developers are verified there, and their Play apps are registered automatically. Check *Play Console → Developer account → Verification* and confirm `com.flygonlc.onebattery` shows as registered after the first upload.
-- **Organization account (recommended for "Flygon LC")** needs a **D-U-N-S number** that matches the legal entity's name and address. Getting one can take up to about 30 days. The public developer name can be "Flygon LC". Organization accounts are **exempt** from the testing gate below.
-- **Personal account created after 13 Nov 2023:** before production access, you must run a **closed test with at least 12 testers opted in continuously for 14 days**. Internal testing doesn't count. Budget 2+ weeks.
-- A public **contact email** is required (shown on the listing): `info@flygonlc.com`. A website is optional: `https://flygonlc.com`.
+### ✅ 2.1 Developer account: Flygon LC organization account (verified)
+- **Done:** Flygon LC already has a Play Console **organization** account. Identity, D-U-N-S, website and trader status are all verified, and there are no policy issues. Checked 2026-11-11.
+- Organization accounts are **exempt** from the 12-tester, 14-day closed-test rule, so production is open as soon as the app passes review.
+- **Package name registration (Android developer verification):** after the first upload, check *Play Console → Developer account → Verification* and confirm `com.flygonlc.onebattery` is registered. Registration is required for global availability as enforcement expands in 2027.
+- **Trader re-declaration** is due by **1 Feb 2027**.
+- Public contact email (shown on the listing): `info@flygonlc.com`. Website: `https://flygonlc.com`.
 
 ---
 
