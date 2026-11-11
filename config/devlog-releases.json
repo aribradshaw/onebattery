@@ -1,5 +1,36 @@
 [
   {
+    "version": "1.3.8",
+    "date": "2026-11-11",
+    "releasedAt": "2026-11-11T19:44:33.000Z",
+    "title": "Play checklist: Flygon LC organization account is already verified",
+    "notes": [
+      "Play checklist: Flygon LC organization account is already verified"
+    ],
+    "commit": "d7d6f5bd54292b985f0a27549a249c16a5af56b1",
+    "sourceSubject": "Play checklist: Flygon LC organization account is already verified",
+    "author": {
+      "name": "Ari Bradshaw",
+      "githubLogin": "aribradshaw"
+    },
+    "includedCommits": [
+      {
+        "sha": "7aef0b56383d419ab7cb95dcb72899e5534e7b8f",
+        "subject": "chore(release): publish DevLog 1.3.7",
+        "committedAt": "2026-11-11T19:37:22Z",
+        "authorName": "github-actions[bot]"
+      },
+      {
+        "sha": "d7d6f5bd54292b985f0a27549a249c16a5af56b1",
+        "subject": "Play checklist: Flygon LC organization account is already verified",
+        "committedAt": "2026-11-11T12:44:28-07:00",
+        "authorName": "Ari Bradshaw"
+      }
+    ],
+    "compatibility": "compatible",
+    "action": null
+  },
+  {
     "version": "1.3.7",
     "date": "2026-11-11",
     "releasedAt": "2026-11-11T19:36:20.000Z",
