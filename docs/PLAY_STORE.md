@@ -154,7 +154,7 @@ Text lives in `fastlane/metadata/android/en-US/`. You can paste it manually, or 
 | Release notes | `changelogs/<versionCode>.txt` | ✅ Rename the file to match the versionCode actually uploaded. |
 | Hi-res icon 512×512, 32-bit PNG | `images/icon.png` | ✅ **Flygon** variant (chosen 2026-11-12), full-bleed (Play applies the mask). Alternative: `docs/store-art/icon-system.png`. |
 | Feature graphic 1024×500, 24-bit PNG | `images/featureGraphic.png` | ✅ Flygon variant. Alternative: `docs/store-art/featureGraphic-system.png`. |
-| **Phone screenshots (2–8, 16:9 or 9:16, 320–3840 px)** | `images/phoneScreenshots/1.png …` | ❌ **TODO.** Take them on the phone or an emulator with demo data: dashboard (live), health card with a measured capacity, history charts, drain list, settings, theme picker (all four themes side by side make a strong final shot). Strip status-bar clutter (`adb shell settings put global sysui_demo_allowed 1` + demo mode) and avoid real app names you're not comfortable showing in the drain list. |
+| Phone screenshots (2–8, 9:16, 1080×1920) | `images/phoneScreenshots/1.png … 7.png` | ✅ Done 2026-11-12: real captures from the S24 Ultra (Flygon theme) in a Flygon-style frame with captions; status bar redrawn because One UI ignores SystemUI demo mode. Raw 1080×2340 captures can't be uploaded as-is (over 2:1). ⚠️ Shot 3 (drain list) shows other apps' names and icons (X, Instagram, Gmail…). That's normal for this kind of app, but if review flags it, recapture with those blurred. |
 | 7" / 10" tablet screenshots | `images/sevenInchScreenshots/`, `tenInchScreenshots/` | Optional. Recommended once large-screen layouts are checked (API 36). |
 | Category / tags | **Tools** | Tags: Battery, Device info. |
 
