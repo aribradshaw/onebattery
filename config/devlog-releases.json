@@ -1,5 +1,36 @@
 [
   {
+    "version": "1.3.9",
+    "date": "2026-11-11",
+    "releasedAt": "2026-11-12T01:02:23.000Z",
+    "title": "Play store art: use the Flygon icon and feature graphic",
+    "notes": [
+      "Play store art: use the Flygon icon and feature graphic"
+    ],
+    "commit": "d12961d45feb3305b46c189ef34575f684b58291",
+    "sourceSubject": "Play store art: use the Flygon icon and feature graphic",
+    "author": {
+      "name": "Ari Bradshaw",
+      "githubLogin": "aribradshaw"
+    },
+    "includedCommits": [
+      {
+        "sha": "9cfa6b53377e20a68efa149a20037a265aff0d70",
+        "subject": "chore(release): publish DevLog 1.3.8",
+        "committedAt": "2026-11-11T19:44:51Z",
+        "authorName": "github-actions[bot]"
+      },
+      {
+        "sha": "d12961d45feb3305b46c189ef34575f684b58291",
+        "subject": "Play store art: use the Flygon icon and feature graphic",
+        "committedAt": "2026-11-11T18:02:18-07:00",
+        "authorName": "Ari Bradshaw"
+      }
+    ],
+    "compatibility": "compatible",
+    "action": null
+  },
+  {
     "version": "1.3.8",
     "date": "2026-11-11",
     "releasedAt": "2026-11-11T19:44:33.000Z",
