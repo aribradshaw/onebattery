@@ -152,8 +152,8 @@ Text lives in `fastlane/metadata/android/en-US/`. You can paste it manually, or 
 | Short description (≤80) | `short_description.txt` (80 chars) | ✅ |
 | Full description (≤4000) | `full_description.txt` (about 2,850 chars) | ✅ No ranking or "best" claims, no emoji, no third-party trademarks except a factual "Samsung Galaxy" mention. |
 | Release notes | `changelogs/<versionCode>.txt` | ✅ Rename the file to match the versionCode actually uploaded. |
-| Hi-res icon 512×512, 32-bit PNG | `images/icon.png` | ✅ "System Boring" variant, full-bleed (Play applies the mask). Alternative: `docs/store-art/icon-flygon.png`. |
-| Feature graphic 1024×500, 24-bit PNG | `images/featureGraphic.png` | ✅ Alternative: `docs/store-art/featureGraphic-flygon.png`. |
+| Hi-res icon 512×512, 32-bit PNG | `images/icon.png` | ✅ **Flygon** variant (chosen 2026-11-12), full-bleed (Play applies the mask). Alternative: `docs/store-art/icon-system.png`. |
+| Feature graphic 1024×500, 24-bit PNG | `images/featureGraphic.png` | ✅ Flygon variant. Alternative: `docs/store-art/featureGraphic-system.png`. |
 | **Phone screenshots (2–8, 16:9 or 9:16, 320–3840 px)** | `images/phoneScreenshots/1.png …` | ❌ **TODO.** Take them on the phone or an emulator with demo data: dashboard (live), health card with a measured capacity, history charts, drain list, settings, theme picker (all four themes side by side make a strong final shot). Strip status-bar clutter (`adb shell settings put global sysui_demo_allowed 1` + demo mode) and avoid real app names you're not comfortable showing in the drain list. |
 | 7" / 10" tablet screenshots | `images/sevenInchScreenshots/`, `tenInchScreenshots/` | Optional. Recommended once large-screen layouts are checked (API 36). |
 | Category / tags | **Tools** | Tags: Battery, Device info. |
