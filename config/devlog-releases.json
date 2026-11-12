@@ -1,5 +1,36 @@
 [
   {
+    "version": "1.3.10",
+    "date": "2026-11-11",
+    "releasedAt": "2026-11-12T01:13:36.000Z",
+    "title": "Play store: add seven phone screenshots",
+    "notes": [
+      "Play store: add seven phone screenshots"
+    ],
+    "commit": "42fa424f666f166158bacb84bf6134a40aabb299",
+    "sourceSubject": "Play store: add seven phone screenshots",
+    "author": {
+      "name": "Ari Bradshaw",
+      "githubLogin": "aribradshaw"
+    },
+    "includedCommits": [
+      {
+        "sha": "f6000d10d6942b7623cf6ad7d60e898eb4d97383",
+        "subject": "chore(release): publish DevLog 1.3.9",
+        "committedAt": "2026-11-12T01:02:44Z",
+        "authorName": "github-actions[bot]"
+      },
+      {
+        "sha": "42fa424f666f166158bacb84bf6134a40aabb299",
+        "subject": "Play store: add seven phone screenshots",
+        "committedAt": "2026-11-11T18:13:30-07:00",
+        "authorName": "Ari Bradshaw"
+      }
+    ],
+    "compatibility": "compatible",
+    "action": null
+  },
+  {
     "version": "1.3.9",
     "date": "2026-11-11",
     "releasedAt": "2026-11-12T01:02:23.000Z",
