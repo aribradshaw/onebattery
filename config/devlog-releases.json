@@ -1,5 +1,36 @@
 [
   {
+    "version": "1.3.11",
+    "date": "2026-11-11",
+    "releasedAt": "2026-11-12T01:44:25.000Z",
+    "title": "Play store: add a Night theme screenshot",
+    "notes": [
+      "Play store: add a Night theme screenshot"
+    ],
+    "commit": "261511a961d61d4202f60f95177ef6759eda67fe",
+    "sourceSubject": "Play store: add a Night theme screenshot",
+    "author": {
+      "name": "Ari Bradshaw",
+      "githubLogin": "aribradshaw"
+    },
+    "includedCommits": [
+      {
+        "sha": "5813bff9349b678965589c5b76d18c9dddb04c1c",
+        "subject": "chore(release): publish DevLog 1.3.10",
+        "committedAt": "2026-11-12T01:13:59Z",
+        "authorName": "github-actions[bot]"
+      },
+      {
+        "sha": "261511a961d61d4202f60f95177ef6759eda67fe",
+        "subject": "Play store: add a Night theme screenshot",
+        "committedAt": "2026-11-11T18:44:19-07:00",
+        "authorName": "Ari Bradshaw"
+      }
+    ],
+    "compatibility": "compatible",
+    "action": null
+  },
+  {
     "version": "1.3.10",
     "date": "2026-11-11",
     "releasedAt": "2026-11-12T01:13:36.000Z",
